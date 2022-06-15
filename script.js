@@ -12,19 +12,19 @@ function fill(event) {
     if (event.target.textContent == 'RESET GAME') {
         document.location.reload()
     }
-    let turn = (counter % 2 == 0) ? turnValue.innerHTML = "'X's TURN" : turnValue.innerHTML = "'O's TURN"
-    memory(event.target.id, turn.slice(1, 2))
+    let turn = (counter % 2 == 0) ? turnValue.innerHTML = "X's TURN" : turnValue.innerHTML = "O's TURN"
+    memory(event.target.id, turn.slice(0, 1))
 }
 
 let winCells = [
-    ['1', '2', '3', ''],
-    ['7', '8', '9', ''],
-    ['1', '4', '7', ''],
-    ['2', '5', '8', ''],
-    ['3', '6', '9', ''],
-    ['1', '5', '9', ''],
-    ['4', '5', '6', ''],
-    ['3', '5', '7', '']
+    ['1', '2', '3'],
+    ['7', '8', '9'],
+    ['1', '4', '7'],
+    ['2', '5', '8'],
+    ['3', '6', '9'],
+    ['1', '5', '9'],
+    ['4', '5', '6'],
+    ['3', '5', '7']
 ]
 
 let x = []
@@ -32,6 +32,9 @@ let o = []
 
 
 function memory(id, sign) {
+    if (id == '') {
+        return
+    }
     if (sign == 'O') {
         x.push(id)
         checkWinner(x, 'X')
@@ -42,24 +45,25 @@ function memory(id, sign) {
     }
 }
 
-let winner = ''
+let winner = []
 
-function checkWinner(sign, player) {
-    for (let i = 0; winCells.length > i; i++) {
-        for (j = 0; j < 4; j++) {
-            if (sign.includes(winCells[i][j])) {
-                winner += winCells[i][j]
-                console.log(winner)
-            }
-            else {
-                winner = ''
+function checkWinner(signResult, player) {
+    for (let i = 0; i < winCells.length; i++) {
+        winner = []
+        for (let j = 0; j < signResult.length; j++) {
+            if (winCells[i].includes(signResult[j])) {
+                winner.push(player)
             }
             if (winner.length == 3) {
                 alert(`Winner is ${player}`)
-                document.location.reload()
+                checkWinner = NaN
                 break
             }
         }
     }
-
+    if ((x.length + o.length) == 9) {
+        alert('No winners, no losers, worthy fight!')
+        checkWinner = NaN
+        return
+    }
 }
