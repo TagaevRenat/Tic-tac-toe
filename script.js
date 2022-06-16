@@ -28,8 +28,8 @@ window.onload = () => {
         ['3', '5', '7']
     ]
 
-    let x = []
-    let o = []
+    let x = new Set()
+    let o = new Set()
 
 
     function memory(id, sign) {
@@ -37,16 +37,18 @@ window.onload = () => {
             return
         }
         if (sign == 'O') {
-            x.push(id)
-            checkWinner(x, 'X')
+            x.add(id)
+            xPlayer = Array.from(x)
+            checkWinner(xPlayer, 'X')
         }
         else {
-            o.push(id)
-            checkWinner(o, 'O')
+            o.add(id)
+            oPlayer = Array.from(o)
+            checkWinner(oPlayer, 'O')
         }
     }
 
-    let winner = []
+    let winner
 
     function checkWinner(signResult, player) {
         for (let i = 0; i < winCells.length; i++) {
@@ -62,10 +64,11 @@ window.onload = () => {
                 }
             }
         }
-        if ((x.length + o.length) == 9) {
+        if ((x.size + o.size) == 9) {
             alert('No winners, no losers, worthy fight!')
             checkWinner = NaN
             return
         }
     }
 }
+
