@@ -7,14 +7,14 @@ window.onload = () => {
 
     function fill(event) {
         if (event.target.textContent == '') {
+            let turn = (counter % 2 == 0) ? turnValue.innerHTML = "O's TURN" : turnValue.innerHTML = "X's TURN"
             let sign = (counter % 2 == 0) ? event.target.innerHTML = 'X' : event.target.innerHTML = '0'
+            memory(event.target.id, turn.slice(0, 1))
             counter++
         }
         if (event.target.textContent == 'RESET GAME') {
             document.location.reload()
         }
-        let turn = (counter % 2 == 0) ? turnValue.innerHTML = "X's TURN" : turnValue.innerHTML = "O's TURN"
-        memory(event.target.id, turn.slice(0, 1))
     }
 
     let winCells = [
@@ -60,11 +60,11 @@ window.onload = () => {
                 if (winner.length == 3) {
                     alert(`Winner is ${player}`)
                     checkWinner = NaN
-                    break
+                    return
                 }
             }
         }
-        if ((x.size + o.size) == 9) {
+        if (((x.size + o.size) == 9) && winner.length !== 3) {
             alert('No winners, no losers, worthy fight!')
             checkWinner = NaN
             return
